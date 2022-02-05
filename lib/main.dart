@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'UI/get_started.dart';
 void main() => runApp(MedicineReminder());
 
 class MedicineReminder extends StatelessWidget {
@@ -7,7 +7,7 @@ class MedicineReminder extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: SafeArea(
-        child: Container(),
+        child:GetStarted() ,
       ),
     );
   }
