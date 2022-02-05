@@ -6,8 +6,11 @@ class MedicineReminder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
       home: SafeArea(
         child:GetStarted() ,
+
+
       ),
     );
   }
