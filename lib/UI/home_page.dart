@@ -7,12 +7,26 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        body: Column(
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: SafeArea(
+        child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[Container()],
+          children: <Widget>[
+            Center(
+              child: Container(
+                color: Colors.red,
+                height: 100,
+                width: 100,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.popAndPushNamed(context, "/");
+                  },
+                  child: Text("GO Back"),
+                ),
+              ),
+            )
+          ],
         ),
       ),
     );
