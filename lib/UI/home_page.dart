@@ -15,7 +15,7 @@ class HomePage extends StatelessWidget {
         elevation: 5,
       ),
       body: Center(
-        child: Text("MODIFY ME"),
+        child: Text("modify me"),
       ),
     );
   }
