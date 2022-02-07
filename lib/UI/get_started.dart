@@ -42,7 +42,9 @@ class GetStarted extends StatelessWidget {
             padding: EdgeInsets.all(10),
             color: Color(0xFFEA5F5F),
             child: GestureDetector(
-              onTap: () => print("hello"),
+              onTap: () {
+                Navigator.pop(context, "/homepage");
+              },
               child: Text("Get Started"),
             ),
           ),
