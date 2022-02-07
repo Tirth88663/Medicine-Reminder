@@ -45,8 +45,10 @@ class GetStarted extends StatelessWidget {
             padding: EdgeInsets.all(10),
 
             child: GestureDetector(
-              onTap: () => print("hello"),
-              child: Text("Get Started",style: kButtonTextStyle,),
+              onTap: () {
+                Navigator.pop(context, "/homepage");
+              },
+              child: Text("Get Started"),
             ),
           ),
         ],
