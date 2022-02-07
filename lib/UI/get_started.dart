@@ -6,7 +6,7 @@ const TextStyle kHeadingStyle = TextStyle(
   color: Colors.black,
 );
 const TextStyle kButtonTextStyle =
-    TextStyle(fontSize: 30.0, color: Colors.white);
+    TextStyle(fontSize: 21.0, color: Colors.white);
 const TextStyle kBodyTextStyle = TextStyle(
     fontSize: 16.0, decoration: TextDecoration.none, color: Colors.grey);
 
@@ -21,9 +21,8 @@ class GetStarted extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
-          Image(
-            image: AssetImage('images/frontpage.jpg'),
-          ),
+          Image.asset('images/frontpage.jpg',width: 390.0,),
+
           Text(
             'Be In Safe Of \n Your Body',
             style: kHeadingStyle,
@@ -38,9 +37,13 @@ class GetStarted extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           Container(
-            margin: EdgeInsets.symmetric(vertical: 15),
+            margin: EdgeInsets.symmetric(vertical: 30),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: Color(0xFFEA5F5F),
+            ),
             padding: EdgeInsets.all(10),
-            color: Color(0xFFEA5F5F),
+
             child: GestureDetector(
               onTap: () {
                 Navigator.pop(context, "/homepage");
