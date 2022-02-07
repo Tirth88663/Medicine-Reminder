@@ -19,19 +19,20 @@ class GetStarted extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
         children: [
-          const Image(
+          Image(
             image: AssetImage('images/frontpage.jpg'),
           ),
-          const Text(
+          Text(
             'Be In Safe Of \n Your Body',
             style: kHeadingStyle,
             textAlign: TextAlign.center,
           ),
-          const SizedBox(
+          SizedBox(
             height: 15.0,
           ),
-          const Text(
+          Text(
             'There is no substitute. A True Devotion to Healing. Achieve your goals together. In Love with Life.',
             style: kBodyTextStyle,
             textAlign: TextAlign.center,
