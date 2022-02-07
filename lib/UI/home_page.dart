@@ -5,6 +5,12 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: const <Widget>[],
+        ),
+      ),
+    );
   }
 }
