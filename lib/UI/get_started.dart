@@ -46,7 +46,7 @@ class GetStarted extends StatelessWidget {
 
             child: GestureDetector(
               onTap: () {
-                Navigator.pop(context, "/homepage");
+                Navigator.pushNamed(context, "/homepage");
               },
               child: Text("Get Started"),
             ),
