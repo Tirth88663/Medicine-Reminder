@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:medicine_reminder/UI/home_page.dart';
+import 'package:medicine_reminder/UI/medicine_page.dart';
 
 import 'UI/get_started.dart';
 
@@ -9,10 +11,14 @@ class MedicineReminder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: SafeArea(
-        child: GetStarted(),
-      ),
+    return MaterialApp(
+      title: "Medicine Reminder",
+      initialRoute: "/",
+      routes: {
+        "/": (contaxt) => GetStarted(),
+        "/homepage": (context) => HomePage(),
+        "/medicinepage":(context)=>MedicinePage(),
+      },
     );
   }
 }
