@@ -46,6 +46,7 @@ class HomePage extends StatelessWidget {
                       color: Colors.deepPurpleAccent,
                       borderRadius: BorderRadius.circular(20),
                     ),
+                    onTap: () {},
                     child: Center(
                         child: Text(
                       "+add",
