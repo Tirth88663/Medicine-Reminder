@@ -13,9 +13,26 @@ class MedicineReminder extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Medicine Reminder",
+      theme: ThemeData(
+        primaryColor: Colors.white,
+        appBarTheme: AppBarTheme(
+            backgroundColor: Colors.white,
+            elevation: 0.0,
+            iconTheme: IconThemeData(color: Colors.black)),
+        brightness: Brightness.light,
+      ),
+      darkTheme: ThemeData(
+        primaryColor: Colors.black,
+        appBarTheme: AppBarTheme(
+            backgroundColor: Colors.black,
+            elevation: 0.0,
+            iconTheme: IconThemeData(color: Colors.white)),
+        brightness: Brightness.dark,
+      ),
+      themeMode: ThemeMode.light,
       initialRoute: "/",
       routes: {
-        "/": (contaxt) => GetStarted(),
+        "/": (context) => GetStarted(),
         "/homepage": (context) => HomePage(),
         "/medicinepage":(context)=>MedicinePage(),
       },
