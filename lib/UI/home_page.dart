@@ -38,6 +38,9 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
                 GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, "/medicinepage");
+                  },
                   child: Container(
                     height: 35.0,
                     width: 60.0,
