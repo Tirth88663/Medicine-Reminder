@@ -2,9 +2,7 @@
 
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
-import 'medicine_page.dart';
 import 'package:intl/intl.dart';
-
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -40,6 +38,9 @@ class HomePage extends StatelessWidget {
                   ],
                 ),
                 GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(context, "/medicinepage");
+                  },
                   child: Container(
                     height: 35.0,
                     width: 60.0,
@@ -48,7 +49,6 @@ class HomePage extends StatelessWidget {
                       color: Colors.deepPurpleAccent,
                       borderRadius: BorderRadius.circular(20),
                     ),
-                    onTap: () {},
                     child: Center(
                         child: Text(
                       "+add",
