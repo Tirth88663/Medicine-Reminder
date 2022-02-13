@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medicine_reminder/UI/home_page.dart';
+import 'package:medicine_reminder/UI/medicine_page.dart';
 
 import 'UI/get_started.dart';
 
@@ -16,6 +17,7 @@ class MedicineReminder extends StatelessWidget {
       routes: {
         "/": (contaxt) => GetStarted(),
         "/homepage": (context) => HomePage(),
+        "/medicinepage":(context)=>MedicinePage(),
       },
     );
   }
