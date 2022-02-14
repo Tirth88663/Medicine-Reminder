@@ -16,10 +16,10 @@ class _MedicinePageState extends State<MedicinePage> {
   String dropdownValue = '5 minutes early';
 
   IconData icon = Icons.circle;
-  int iconClickCounter=0;
-  IconData iconOneCheck=Icons.check_circle;
-  IconData iconTwoCheck=Icons.check_circle;
-  IconData iconThreeCheck=Icons.check_circle;
+  int iconClickCounter = 0;
+  IconData iconOneCheck = Icons.check_circle;
+  IconData iconTwoCheck = Icons.check_circle;
+  IconData iconThreeCheck = Icons.check_circle;
 
   @override
   Widget build(BuildContext context) {
@@ -308,11 +308,11 @@ class _MedicinePageState extends State<MedicinePage> {
                       IconButton(
                         onPressed: () {
                           setState(() {
-                            iconClickCounter=1;
+                            iconClickCounter = 1;
                           });
                         },
                         icon: Icon(
-                          iconClickCounter==1 ? iconOneCheck:icon,
+                          iconClickCounter == 1 ? iconOneCheck : icon,
                           color: Colors.red,
                           size: 30.0,
                         ),
@@ -320,11 +320,11 @@ class _MedicinePageState extends State<MedicinePage> {
                       IconButton(
                         onPressed: () {
                           setState(() {
-                            iconClickCounter=2;
+                            iconClickCounter = 2;
                           });
                         },
                         icon: Icon(
-                          iconClickCounter==2 ? iconTwoCheck:icon,
+                          iconClickCounter == 2 ? iconTwoCheck : icon,
                           color: Colors.yellow,
                           size: 30.0,
                         ),
@@ -332,17 +332,31 @@ class _MedicinePageState extends State<MedicinePage> {
                       IconButton(
                         onPressed: () {
                           setState(() {
-                            iconClickCounter=3;
+                            iconClickCounter = 3;
                           });
                         },
                         icon: Icon(
-                            iconClickCounter==3 ? iconThreeCheck:icon,
+                          iconClickCounter == 3 ? iconThreeCheck : icon,
                           color: Colors.blue,
                           size: 30.0,
                         ),
                       ),
-                      SizedBox(width: MediaQuery.of(context).size.width/3.5,),
-                      RaisedButton(onPressed: (){},color: Colors.purple,child: Text('Create task',style:TextStyle(color: Colors.white),),)
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 3.5,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0);
+                        ),
+                        child: RaisedButton(
+                          onPressed: () {},
+                          color: Colors.purple,
+                          child: Text(
+                            'Create task',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
