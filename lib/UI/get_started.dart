@@ -4,11 +4,19 @@ const TextStyle kHeadingStyle = TextStyle(
   fontSize: 24.0,
   decoration: TextDecoration.none,
   color: Colors.black,
+  fontWeight: FontWeight.w600,
 );
-const TextStyle kButtonTextStyle =
-    TextStyle(fontSize: 21.0, color: Colors.white);
+const TextStyle kButtonTextStyle = TextStyle(
+  fontSize: 18.0,
+  color: Colors.white,
+  fontWeight: FontWeight.w500,
+);
 const TextStyle kBodyTextStyle = TextStyle(
-    fontSize: 16.0, decoration: TextDecoration.none, color: Colors.grey);
+  fontSize: 18.0,
+  decoration: TextDecoration.none,
+  color: Colors.grey,
+  fontWeight: FontWeight.w600,
+);
 
 class GetStarted extends StatelessWidget {
   const GetStarted({Key? key}) : super(key: key);
@@ -42,15 +50,22 @@ class GetStarted extends StatelessWidget {
             Container(
               margin: EdgeInsets.symmetric(vertical: 30),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(30),
+                borderRadius: BorderRadius.circular(25),
                 color: Color(0xFFEA5F5F),
+                shape: BoxShape.rectangle,
               ),
               padding: EdgeInsets.all(10),
               child: GestureDetector(
                 onTap: () {
                   Navigator.pushNamed(context, "/homepage");
                 },
-                child: Text("Get Started"),
+                child: Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Text(
+                    "Get Started",
+                    style: kButtonTextStyle,
+                  ),
+                ),
               ),
             ),
           ],
