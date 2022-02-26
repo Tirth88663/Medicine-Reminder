@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:date_field/date_field.dart';
+import 'package:flutter/material.dart';
 
 const TextStyle kBodyTextHeading =
     TextStyle(fontWeight: FontWeight.bold, fontSize: 30.0);
@@ -11,6 +11,7 @@ class MedicinePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        resizeToAvoidBottomInset: false,
         body: Column(
           children: [
             Row(
@@ -20,8 +21,8 @@ class MedicinePage extends StatelessWidget {
                   padding: EdgeInsets.all(20.0),
                   child: Icon(
                     Icons.account_circle,
-                    size: 50.0,
-                    color: Colors.blueGrey,
+                    size: 30.0,
+                    color: Colors.grey,
                   ),
                 ),
               ],
@@ -102,12 +103,11 @@ class MedicinePage extends StatelessWidget {
               padding: const EdgeInsets.all(10.0),
               child: DateTimeFormField(
                 decoration: const InputDecoration(
-                  hintStyle: TextStyle(color: Colors.black45),
-                  errorStyle: TextStyle(color: Colors.redAccent),
-                  border: OutlineInputBorder(),
-                  suffixIcon: Icon(Icons.event_note),
-                  hintText: 'Enter Date'
-                ),
+                    hintStyle: TextStyle(color: Colors.black45),
+                    errorStyle: TextStyle(color: Colors.redAccent),
+                    border: OutlineInputBorder(),
+                    suffixIcon: Icon(Icons.event_note),
+                    hintText: 'Enter Date'),
                 mode: DateTimeFieldPickerMode.date,
                 autovalidateMode: AutovalidateMode.always,
                 onDateSelected: (DateTime value) {
@@ -116,7 +116,8 @@ class MedicinePage extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(left: 20.0,right: 100.0,top: 10.0),
+              padding:
+                  const EdgeInsets.only(left: 20.0, right: 100.0, top: 10.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
@@ -135,7 +136,7 @@ class MedicinePage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 SizedBox(
-                  width: 190.0  ,
+                  width: 190.0,
                   child: DateTimeFormField(
                     decoration: const InputDecoration(
                       hintStyle: TextStyle(color: Colors.black45),
@@ -152,7 +153,7 @@ class MedicinePage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  width: 190.0  ,
+                  width: 190.0,
                   child: DateTimeFormField(
                     decoration: const InputDecoration(
                       hintStyle: TextStyle(color: Colors.black45),
@@ -170,8 +171,54 @@ class MedicinePage extends StatelessWidget {
                 ),
               ],
             ),
+            SizedBox(
+              height: 25.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _finButton(
+                  "CANCLE",
+                  () {
+                    Navigator.pop(context);
+                  },
+                ),
+                SizedBox(
+                  width: 10.0,
+                ),
+                _finButton(
+                  "SAVE",
+                  () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            )
           ],
         ),
+      ),
+    );
+  }
+
+  _finButton(String displayText, Ontap) {
+    return GestureDetector(
+      onTap: Ontap,
+      child: Container(
+        height: 40.0,
+        width: 70.0,
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          color: Color(0xFFEB1997),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Center(
+            child: Text(
+          displayText,
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        )),
       ),
     );
   }

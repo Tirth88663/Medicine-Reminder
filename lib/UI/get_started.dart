@@ -18,9 +18,14 @@ const TextStyle kBodyTextStyle = TextStyle(
   fontWeight: FontWeight.w600,
 );
 
-class GetStarted extends StatelessWidget {
+class GetStarted extends StatefulWidget {
   const GetStarted({Key? key}) : super(key: key);
 
+  @override
+  _GetStartedState createState() => _GetStartedState();
+}
+
+class _GetStartedState extends State<GetStarted> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
