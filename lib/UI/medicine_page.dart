@@ -146,7 +146,7 @@ class _MedicinePageState extends State<MedicinePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SizedBox(
-                    width: 190.0,
+                    width: 170.0,
                     child: DateTimeFormField(
                       decoration: const InputDecoration(
                         hintStyle: TextStyle(color: Colors.black45),
@@ -162,8 +162,9 @@ class _MedicinePageState extends State<MedicinePage> {
                       },
                     ),
                   ),
-                  SizedBox(
-                    width: 190.0,
+                  Container(
+                    width: 170.0,
+                    padding: EdgeInsets.only(right: 5),
                     child: DateTimeFormField(
                       decoration: const InputDecoration(
                         hintStyle: TextStyle(color: Colors.black45),
@@ -196,8 +197,9 @@ class _MedicinePageState extends State<MedicinePage> {
                   ),
                 ],
               ),
-              SizedBox(
+              Container(
                 width: 390.0,
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                 child: DropdownButtonFormField<String>(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -242,8 +244,9 @@ class _MedicinePageState extends State<MedicinePage> {
                   ),
                 ],
               ),
-              SizedBox(
+              Container(
                 width: 390.0,
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                 child: DropdownButtonFormField<String>(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
