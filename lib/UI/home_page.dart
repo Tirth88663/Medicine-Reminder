@@ -252,6 +252,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-
-// color: Color(0xFFF7D601),
-// color: Color(0xFF0093C4),
