@@ -62,7 +62,7 @@ class _GetStartedState extends State<GetStarted> {
               padding: EdgeInsets.all(10),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, "/homepage");
+                  Navigator.pushNamed(context, "/welcomePage");
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(4.0),
