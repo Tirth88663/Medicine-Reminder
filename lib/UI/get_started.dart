@@ -18,9 +18,14 @@ const TextStyle kBodyTextStyle = TextStyle(
   fontWeight: FontWeight.w600,
 );
 
-class GetStarted extends StatelessWidget {
+class GetStarted extends StatefulWidget {
   const GetStarted({Key? key}) : super(key: key);
 
+  @override
+  _GetStartedState createState() => _GetStartedState();
+}
+
+class _GetStartedState extends State<GetStarted> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +62,7 @@ class GetStarted extends StatelessWidget {
               padding: EdgeInsets.all(10),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, "/homepage");
+                  Navigator.pushNamed(context, "/welcomePage");
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(4.0),

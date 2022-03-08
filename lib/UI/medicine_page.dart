@@ -1,6 +1,6 @@
+import 'package:date_field/date_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:date_field/date_field.dart';
 
 const TextStyle kBodyTextHeading =
     TextStyle(fontWeight: FontWeight.bold, fontSize: 24.0);
@@ -29,22 +29,10 @@ class _MedicinePageState extends State<MedicinePage> {
           child: Column(
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
                 children: const [
                   Padding(
-                    padding: EdgeInsets.all(20.0),
-                    child: Icon(
-                      Icons.account_circle,
-                      size: 50.0,
-                      color: Colors.blueGrey,
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.only(left: 20.0, bottom: 10.0),
+                    padding:
+                        EdgeInsets.only(left: 20.0, bottom: 16.0, top: 20.0),
                     child: Text(
                       "Add Task",
                       textAlign: TextAlign.justify,
@@ -158,7 +146,7 @@ class _MedicinePageState extends State<MedicinePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   SizedBox(
-                    width: 190.0,
+                    width: 170.0,
                     child: DateTimeFormField(
                       decoration: const InputDecoration(
                         hintStyle: TextStyle(color: Colors.black45),
@@ -174,8 +162,9 @@ class _MedicinePageState extends State<MedicinePage> {
                       },
                     ),
                   ),
-                  SizedBox(
-                    width: 190.0,
+                  Container(
+                    width: 170.0,
+                    padding: EdgeInsets.only(right: 5),
                     child: DateTimeFormField(
                       decoration: const InputDecoration(
                         hintStyle: TextStyle(color: Colors.black45),
@@ -208,8 +197,9 @@ class _MedicinePageState extends State<MedicinePage> {
                   ),
                 ],
               ),
-              SizedBox(
+              Container(
                 width: 390.0,
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                 child: DropdownButtonFormField<String>(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -254,8 +244,9 @@ class _MedicinePageState extends State<MedicinePage> {
                   ),
                 ],
               ),
-              SizedBox(
+              Container(
                 width: 390.0,
+                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 2),
                 child: DropdownButtonFormField<String>(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -285,80 +276,27 @@ class _MedicinePageState extends State<MedicinePage> {
                   }).toList(),
                 ),
               ),
-              Row(
-                children: const [
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: 20.0,
-                      top: 5.0,
+              Container(
+                padding: EdgeInsets.all(12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _finButton(
+                      "CANCLE",
+                      () {
+                        Navigator.pop(context);
+                      },
                     ),
-                    child: Text(
-                      "Color",
-                      textAlign: TextAlign.justify,
-                      style: kBodyTextSubHeading,
+                    SizedBox(
+                      width: 10.0,
                     ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                  child: Row(
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            iconClickCounter = 1;
-                          });
-                        },
-                        icon: Icon(
-                          iconClickCounter == 1 ? iconOneCheck : icon,
-                          color: Colors.red,
-                          size: 30.0,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            iconClickCounter = 2;
-                          });
-                        },
-                        icon: Icon(
-                          iconClickCounter == 2 ? iconTwoCheck : icon,
-                          color: Colors.yellow,
-                          size: 30.0,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          setState(() {
-                            iconClickCounter = 3;
-                          });
-                        },
-                        icon: Icon(
-                          iconClickCounter == 3 ? iconThreeCheck : icon,
-                          color: Colors.blue,
-                          size: 30.0,
-                        ),
-                      ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 3.5,
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0);
-                        ),
-                        child: RaisedButton(
-                          onPressed: () {},
-                          color: Colors.purple,
-                          child: Text(
-                            'Create task',
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
+                    _finButton(
+                      "SAVE",
+                      () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ],
                 ),
               )
             ],
@@ -367,12 +305,27 @@ class _MedicinePageState extends State<MedicinePage> {
       ),
     );
   }
+
+  _finButton(String displayText, Ontap) {
+    return GestureDetector(
+      onTap: Ontap,
+      child: Container(
+        height: 40.0,
+        width: 70.0,
+        decoration: BoxDecoration(
+          shape: BoxShape.rectangle,
+          color: Color(0xFFEB1997),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Center(
+            child: Text(
+          displayText,
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        )),
+      ),
+    );
+  }
 }
-
-// class MedicinePage extends StatelessWidget {
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return
-//   }
-// }
