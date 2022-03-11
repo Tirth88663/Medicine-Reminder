@@ -25,6 +25,7 @@ class _MedicinePageState extends State<MedicinePage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: AppBar(),
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -304,6 +305,9 @@ class _MedicinePageState extends State<MedicinePage> {
         ),
       ),
     );
+  }
+  _validateDate(){
+    
   }
 
   _finButton(String displayText, Ontap) {
