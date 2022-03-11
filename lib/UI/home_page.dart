@@ -1,13 +1,18 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
 
 import 'package:date_picker_timeline/date_picker_timeline.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_alarm_clock/flutter_alarm_clock.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:medicine_reminder/UI/theme.dart';
 import 'package:intl/intl.dart';
+import 'package:medicine_reminder/components/notification_helper.dart';
 import 'package:medicine_reminder/config.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-
+import '../models/task.dart';
+import 'package:medicine_reminder/UI/widgets/mybutton.dart';
+import 'package:get/get.dart';
+import 'widgets/task_tile.dart';
+import 'package:medicine_reminder/controllers/task_controller.dart';
+import 'package:medicine_reminder/theme.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -17,25 +22,34 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late User loggedInUser;
-  final _auth = FirebaseAuth.instance;
-  void getCurrentUser() async {
-    try {
-      final user = await _auth.currentUser;
-      if (user != null) {
-        loggedInUser = user;
-        print(loggedInUser.uid);
-      }
-    } catch (e) {
-      print(e);
-    }
-  }
+  late NotifyHelper notifyHelper;
+  DateTime _selectedDate = DateTime.now();
+  final _taskController = TaskController();
+
+  // late User loggedInUser;
+  // final _auth = FirebaseAuth.instance;
+  // void getCurrentUser() async {
+  //   try {
+  //     final user = await _auth.currentUser;
+  //     if (user != null) {
+  //       loggedInUser = user;
+  //       print(loggedInUser.uid);
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
+
   @override
   void initState() {
     // TODO: implement initState
+
+    notifyHelper = NotifyHelper();
+    notifyHelper.initializeNotification();
+    notifyHelper.requestIOSPermissions();
     super.initState();
-    getCurrentUser();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,28 +80,13 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ],
                 ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.pushNamed(context, "/medicinepage");
+                MyButton(
+                  label: '+ Add Task',
+                  onTap: () async {
+                    await Navigator.pushNamed(context, '/addTaskPage');
+                    _taskController.getTasks();
                   },
-                  child: Container(
-                    height: 35.0,
-                    width: 60.0,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.rectangle,
-                      color: Color(0xFFEB1997),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Center(
-                        child: Text(
-                      "+ add",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )),
-                  ),
-                )
+                ),
               ],
             ),
           ),
@@ -111,166 +110,211 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.grey[600],
                   fontSize: 12,
                   fontWeight: FontWeight.bold),
+              onDateChange: (date){
+                setState(() {
+                  _selectedDate = date;
+                });
+
+              },
             ),
           ),
-          Container(
-            margin: EdgeInsets.symmetric(vertical: 16.0, horizontal: 8.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.all(10.0),
-                  padding: EdgeInsets.all(12.0),
-                  height: 100.0,
-                  width: 40.0,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFEB1997),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Task 1",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.0,
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Row(
-                        children: <Widget>[
-                          Icon(
-                            CupertinoIcons.clock,
-                            size: 16,
-                          ),
-                          SizedBox(width: 5),
-                          Text(
-                            "9:00PM - 9:15PM",
-                            style: TextStyle(fontSize: 14.0),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        "You have to add Task description here.",
-                        style: TextStyle(fontSize: 14.0),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.all(10.0),
-                  padding: EdgeInsets.all(12.0),
-                  height: 100.0,
-                  width: 40.0,
-                  decoration: BoxDecoration(
-                    color: Color(0xFF0087B4),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Task 2",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.0,
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Row(
-                        children: <Widget>[
-                          Icon(
-                            CupertinoIcons.clock,
-                            size: 16,
-                          ),
-                          SizedBox(width: 5),
-                          Text(
-                            "9:00PM - 9:15PM",
-                            style: TextStyle(fontSize: 14.0),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        "You have to add Task description here.",
-                        style: TextStyle(fontSize: 14.0),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.all(10.0),
-                  padding: EdgeInsets.all(12.0),
-                  height: 100.0,
-                  width: 40.0,
-                  decoration: BoxDecoration(
-                    color: Color(0xFFC3A901),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        "Task 3",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14.0,
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Row(
-                        children: <Widget>[
-                          Icon(
-                            CupertinoIcons.clock,
-                            size: 16,
-                          ),
-                          SizedBox(width: 5),
-                          Text(
-                            "9:00PM - 9:15PM",
-                            style: TextStyle(fontSize: 14.0),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        "You have to add Task description here.",
-                        style: TextStyle(fontSize: 14.0),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+          SizedBox(
+            height: 10,
           ),
+          _showTasks(),
         ],
       ),
     );
   }
 
+
+  _showTasks() {
+    // if (_taskController.taskList.isEmpty) {
+    _taskController.getTasks();
+    return Expanded(
+      child: Obx(() {
+        return ListView.builder(
+            itemCount: _taskController.taskList.length,
+            itemBuilder: (_, index) {
+              Task task=_taskController.taskList[index];
+              print(task.toJson());
+              if (task.date == DateFormat.yMd().format(_selectedDate) ||
+                  task.repeat == 'Daily' ||
+                  task.repeat == 'Weekly' &&
+                      _selectedDate
+                          .difference(
+                          DateFormat.yMd().parse(task.date!))
+                          .inDays %
+                          7 ==
+                          0 ||
+                  task.repeat == 'Monthly' &&
+                      _selectedDate.day ==
+                          DateFormat.yMd().parse(task.date!).day) {               DateTime date=DateFormat.jm().parse(task.startTime.toString());
+                var myTime=DateFormat("HH:mm").format(date);
+                int hour;
+                int minutes;
+                hour = int.parse(myTime.toString().split(":")[0]);
+                minutes = int.parse(myTime.toString().split(":")[1]);
+                FlutterAlarmClock.createAlarm(hour, minutes);
+                return AnimationConfiguration.staggeredList(
+                    position: index,
+                    child: SlideAnimation(
+                      child: FadeInAnimation(
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                _showBottomSheet(
+                                    context, task);
+
+                              },
+                              child: TaskTile(task),
+                            )
+                          ],
+                        ),
+                      ),
+                    ));
+              }
+              if (task.date==DateFormat.yMd().format(_selectedDate)){
+                return AnimationConfiguration.staggeredList(
+                    position: index,
+                    child: SlideAnimation(
+                      child: FadeInAnimation(
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                _showBottomSheet(
+                                    context, task);
+
+                              },
+                              child: TaskTile(task),
+                            )
+                          ],
+                        ),
+                      ),
+                    ));
+              }else{
+                return Container();
+              }
+            });
+      }),
+    );
+  }
+
   _appBar() {
     return AppBar(
-      leading: IconButton(
-        onPressed: () {
+      leading: GestureDetector(
+        onTap: () {
           currentTheme.switchTheme();
+          notifyHelper.displayNotification(
+            title: "Theme Changed",
+            body: MyTheme.isDark ? "Activated dark theme " : "Activated light theme",
+          );
         },
-        icon: Icon(Icons.nightlight_round),
+        child: Icon(
+            MyTheme.isDark ? Icons.wb_sunny_outlined:Icons.nightlight_round ),
       ),
-      actions: [
+      actions: const [
         Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Icon(
-            Icons.account_circle,
-            color: Colors.grey,
+          padding: EdgeInsets.all(8.0),
+          child: CircleAvatar(
+            backgroundImage: AssetImage("images/profile.png"),
           ),
         )
       ],
+    );
+  }
+
+  _showBottomSheet(BuildContext context, Task task) {
+
+    showModalBottomSheet(
+        context: context,
+        builder: (context) => Container(
+              padding: const EdgeInsets.only(top: 4),
+              height: task.isCompleted == 1
+                  ? MediaQuery.of(context).size.height * 0.24
+                  : MediaQuery.of(context).size.height * 0.32,
+              color: MyTheme.isDark ? darkGreyClr : Colors.white,
+              child: Column(
+                children: [
+                  Container(
+                    height: 6,
+                    width: 120,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color:
+                          MyTheme.isDark ? Colors.grey[600] : Colors.grey[300],
+                    ),
+                  ),
+                  Spacer(),
+                  task.isCompleted == 1
+                      ? Container()
+                      : _bottomSheetButton(
+                          label: "Task Completed",
+                          onTap: () {
+                            _taskController.markTaskCompleted(task.id!);
+                            Navigator.pop(context);
+                          },
+                          clr: primaryClr,
+                          context: context,
+                        ),
+
+                  _bottomSheetButton(
+                    label: "Delete Task",
+                    onTap: () {
+                      _taskController.delete(task);
+                      Navigator.pop(context);
+                    },
+                    clr: Colors.red[300]!,
+                    context: context,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  _bottomSheetButton(
+                    label: "Close",
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    clr: Colors.white,
+                    context: context,
+                    isClose: true,
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                ],
+              ),
+            ));
+  }
+
+  _bottomSheetButton({
+    required String label,
+    required Function()? onTap,
+    required Color clr,
+    bool isClose = false,
+    required BuildContext context,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 4),
+        height: 55,
+        width: MediaQuery.of(context).size.width * 0.9,
+        decoration: BoxDecoration(
+          border:
+              Border.all(width: 2, color: isClose == true ? MyTheme.isDark?Colors.grey[600]! :Colors.grey[300]! : clr),
+          borderRadius: BorderRadius.circular(20),
+          color: isClose == true ? Colors.transparent : clr,
+        ),
+        child: Center(
+            child: Text(
+          label,
+          style:
+              isClose ? titleStyle : titleStyle.copyWith(color: Colors.white),
+        )),
+      ),
     );
   }
 }

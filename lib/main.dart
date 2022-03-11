@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medicine_reminder/UI/add_task_page.dart';
 import 'package:medicine_reminder/UI/home_page.dart';
 import 'package:medicine_reminder/UI/medicine_page.dart';
 import 'package:medicine_reminder/config.dart';
@@ -7,9 +8,13 @@ import 'UI/get_started.dart';
 import 'package:medicine_reminder/UI/login_page.dart';
 import 'package:medicine_reminder/UI/registration_page.dart';
 import 'package:firebase_core/firebase_core.dart';
+
+import 'db/dp_helper.dart';
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  await DBHelper.initDB();
   runApp(MedicineReminder());}
 
 class MedicineReminder extends StatefulWidget {
@@ -35,10 +40,10 @@ class _MedicineReminderState extends State<MedicineReminder> {
       title: "Medicine Reminder",
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        scaffoldBackgroundColor: Colors.grey[350],
+        scaffoldBackgroundColor: Colors.grey[200],
         primaryColor: Colors.white,
         appBarTheme: AppBarTheme(
-            backgroundColor: Colors.grey[350],
+            backgroundColor: Colors.grey[200],
             elevation: 0.0,
             iconTheme: IconThemeData(color: Colors.black)),
         brightness: Brightness.light,
@@ -53,11 +58,12 @@ class _MedicineReminderState extends State<MedicineReminder> {
         brightness: Brightness.dark,
       ),
       themeMode: currentTheme.currentTheme(),
-      initialRoute: "/",
+      initialRoute: "/homepage",
       routes: {
         "/": (context) => GetStarted(),
         "/homepage": (context) => HomePage(),
         "/medicinepage": (context) => MedicinePage(),
+        "/addTaskPage":(context)=>AddTaskPage(),
         "/welcomePage":(context) =>WelcomeScreen(),
         "/loginScreen":(context) =>LoginScreen(),
         "/registrationScreen":(context)=>RegistrationScreen()
