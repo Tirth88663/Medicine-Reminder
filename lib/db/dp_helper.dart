@@ -23,9 +23,10 @@ class DBHelper{
             "startTime STRING, endTime STRING, "
             "remind INTEGER, repeat STRING,"
             "color INTEGER, "
-            "isCompleted INTEGER)");
-        }
+            "isCompleted INTEGER)",);
+        },
       );
+      await _db!.query(_tableName,orderBy: "id DESC");
     }catch(e){
       print(e);
     }
@@ -36,7 +37,7 @@ class DBHelper{
   }
   static Future<List<Map<String,dynamic>>> query() async{
     print("query function called");
-    return _db!.query(_tableName);
+    return _db!.query(_tableName,orderBy: "id DESC");
   }
   static delete(Task task)async{
   return await _db!.delete(_tableName,where: 'id=?',whereArgs: [task.id]);
@@ -51,5 +52,11 @@ class DBHelper{
     SET isCompleted=?
     WHERE id=?
     ''',[1,id]);
+  }
+//   static completed()async{
+//    await _db!.rawUpdate('''UPDATE $_tableName SET id=id+id''');
+// }
+  static order()async{
+    return await _db!.query(_tableName,orderBy: "id DESC");
   }
 }
