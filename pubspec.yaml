@@ -1,8 +1,6 @@
 name: medicine_reminder
 description: A new Flutter project.
 
-# The following line prevents the package from being accidentally published to
-# pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
@@ -23,6 +21,7 @@ dependencies:
   date_field: ^2.1.3
   flutter_local_notifications:
   flutter_staggered_animations:
+  android_alarm_manager_plus: ^2.0.5
   rxdart:
   flutter_alarm_clock:
   flutter_native_timezone:

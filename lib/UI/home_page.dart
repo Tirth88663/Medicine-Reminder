@@ -1,4 +1,7 @@
 
+import 'dart:isolate';
+
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_alarm_clock/flutter_alarm_clock.dart';
@@ -43,10 +46,19 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     // TODO: implement initState
-
+// AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+//   if (!isAllowed){
+//     showDialog(context: context, builder: (context){
+//       AlertDialog(title: Text('allowNotification'),
+//       content: Text('our app wants to use notifications'),
+//       );
+//     });
+//   }
+// });
     notifyHelper = NotifyHelper();
     notifyHelper.initializeNotification();
     notifyHelper.requestIOSPermissions();
+    notifyHelper.flutterLocalNotificationsPlugin;
     super.initState();
   }
 
@@ -131,12 +143,14 @@ class _HomePageState extends State<HomePage> {
   _showTasks() {
     // if (_taskController.taskList.isEmpty) {
     _taskController.getTasks();
+
     return Expanded(
       child: Obx(() {
         return ListView.builder(
             itemCount: _taskController.taskList.length,
             itemBuilder: (_, index) {
               Task task=_taskController.taskList[index];
+
               print(task.toJson());
               if (task.date == DateFormat.yMd().format(_selectedDate) ||
                   task.repeat == 'Daily' ||
@@ -149,14 +163,28 @@ class _HomePageState extends State<HomePage> {
                           0 ||
                   task.repeat == 'Monthly' &&
                       _selectedDate.day ==
-                          DateFormat.yMd().parse(task.date!).day) {               DateTime date=DateFormat.jm().parse(task.startTime.toString());
+                          DateFormat.yMd().parse(task.date!).day ) {
+                DateTime date=DateFormat.jm().parse(task.startTime.toString());
                 var myTime=DateFormat("HH:mm").format(date);
+
+                dynamic title=task.title;
+                dynamic note=task.note;
+
+
                 int hour;
                 int minutes;
                 hour = int.parse(myTime.toString().split(":")[0]);
                 minutes = int.parse(myTime.toString().split(":")[1]);
-                FlutterAlarmClock.createAlarm(hour, minutes);
-                return AnimationConfiguration.staggeredList(
+                double _doublestartTime =hour.toDouble()+(minutes.toDouble()/60);
+                double _doubleNowTime = DateTime.now().hour.toDouble() +
+                    (DateTime.now().minute.toDouble() / 60);
+
+              if (_doublestartTime>_doubleNowTime){
+                FlutterAlarmClock.createAlarm(hour, minutes,title: "$title \n $note");
+
+                 // notifyHelper.scheduledNotification(hour, minutes, task);
+              }
+              return AnimationConfiguration.staggeredList(
                     position: index,
                     child: SlideAnimation(
                       child: FadeInAnimation(
@@ -175,6 +203,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ));
               }
+
               if (task.date==DateFormat.yMd().format(_selectedDate)){
                 return AnimationConfiguration.staggeredList(
                     position: index,
@@ -201,7 +230,11 @@ class _HomePageState extends State<HomePage> {
       }),
     );
   }
-
+  static void printHello() {
+    final DateTime now = DateTime.now();
+    final int isolateId = Isolate.current.hashCode;
+    print("[$now] Hello, world! isolate=${isolateId} function='$printHello'");
+  }
   _appBar() {
     return AppBar(
       leading: GestureDetector(
@@ -254,6 +287,9 @@ class _HomePageState extends State<HomePage> {
                           label: "Task Completed",
                           onTap: () {
                             _taskController.markTaskCompleted(task.id!);
+                            final dynamic first= _taskController.taskList.removeAt(0);
+                            _taskController.taskList.add(first);
+                            _taskController.getTasks();
                             Navigator.pop(context);
                           },
                           clr: primaryClr,
