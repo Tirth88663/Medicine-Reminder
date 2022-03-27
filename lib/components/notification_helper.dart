@@ -15,7 +15,6 @@ class NotifyHelper {
   FlutterLocalNotificationsPlugin();
 
   String selectedNotificationPayload = '';
-
   final BehaviorSubject<String> selectNotificationSubject =
   BehaviorSubject<String>();
   initializeNotification() async {
@@ -89,11 +88,11 @@ class NotifyHelper {
 
   scheduledNotification(int hour, int minutes, Task task) async {
     await flutterLocalNotificationsPlugin.zonedSchedule(
-      task.id ?? 0,
+      0,
       task.title,
       task.note,
-      //tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
-      _nextInstanceOfTenAM(
+      // tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5)),
+      await _nextInstanceOfTenAM(
           hour, minutes, task.remind!, task.repeat!, task.date!),
       const NotificationDetails(
         iOS: IOSNotificationDetails(),
@@ -127,7 +126,7 @@ class NotifyHelper {
     if (scheduledDate.isBefore(now)) {
       if (repeat == 'Daily') {
         scheduledDate = tz.TZDateTime(tz.local, now.year, now.month,
-            formattedDate.day + 1, hour, minutes);
+            formattedDate.day , hour, minutes);
       }
       if (repeat == 'Weekly') {
         scheduledDate = tz.TZDateTime(tz.local, now.year, now.month,
@@ -177,6 +176,7 @@ class NotifyHelper {
 
   Future<void> _configureLocalTimeZone() async {
     tz.initializeTimeZones();
+    // tz.setLocalLocation(tz.getLocation());
     final String timeZoneName = await FlutterNativeTimezone.getLocalTimezone();
     tz.setLocalLocation(tz.getLocation(timeZoneName));
   }
@@ -190,7 +190,8 @@ class NotifyHelper {
   void _configureSelectNotificationSubject() {
     selectNotificationSubject.stream.listen((String payload) async {
       debugPrint('My payload is ' + payload);
-      await Get.to(() => NotificationScreen(
+      await
+      Get.to(() => NotificationScreen(
         payLoad: payload,
       ));
     });

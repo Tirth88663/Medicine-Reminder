@@ -1,3 +1,4 @@
+import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:medicine_reminder/UI/add_task_page.dart';
@@ -9,12 +10,14 @@ import 'package:medicine_reminder/UI/welcome_page.dart';
 import 'package:medicine_reminder/config.dart';
 
 import 'UI/get_started.dart';
+import 'UI/login_page.dart';
+import 'UI/registration_page.dart';
 import 'db/dp_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
+  await AndroidAlarmManager.initialize();
   await DBHelper.initDB();
   runApp(MedicineReminder());
 }
@@ -31,7 +34,6 @@ class _MedicineReminderState extends State<MedicineReminder> {
   void initState() {
     super.initState();
     currentTheme.addListener(() {
-      print("changed");
       setState(() {});
     });
   }
@@ -63,12 +65,13 @@ class _MedicineReminderState extends State<MedicineReminder> {
       initialRoute: "/",
       routes: {
         "/": (context) => GetStarted(),
+        "/welcomeScreen": (context) => WelcomeScreen(),
+        "/loginScreen": (context) => LoginScreen(),
+        "/registrationScreen": (context) => RegistrationScreen(),
         "/homepage": (context) => HomePage(),
         "/medicinepage": (context) => MedicinePage(),
         "/addTaskPage": (context) => AddTaskPage(),
         "/welcomePage": (context) => WelcomeScreen(),
-        "/loginScreen": (context) => LoginScreen(),
-        "/registrationScreen": (context) => RegistrationScreen()
       },
     );
   }

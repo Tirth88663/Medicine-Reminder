@@ -8,6 +8,7 @@ class TaskController extends GetxController {
   @override
   void onReady() {
     getTasks();
+    sortTasks();
     super.onReady();
   }
 
@@ -29,10 +30,14 @@ class TaskController extends GetxController {
   }
   void markTaskCompleted(int id)async{
     await DBHelper.update(id);
+
   getTasks();
   }
   void deleteAllTasks() async {
     await DBHelper.deleteAll();
     getTasks();
+  }
+  void sortTasks()async{
+    await DBHelper.order();
   }
 }
