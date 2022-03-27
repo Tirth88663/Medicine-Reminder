@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medicine_reminder/UI/welcome_page.dart';
 
 const TextStyle kHeadingStyle = TextStyle(
   fontSize: 24.0,
@@ -62,7 +63,11 @@ class _GetStartedState extends State<GetStarted> {
               padding: EdgeInsets.all(10),
               child: GestureDetector(
                 onTap: () {
-                  Navigator.pushNamed(context, "/welcomePage");
+                  Navigator.pushAndRemoveUntil(
+                      (context),
+                      MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                      (route) => false);
+                  // Navigator.pushNamed(context, "/welcomePage");
                 },
                 child: Padding(
                   padding: const EdgeInsets.all(4.0),

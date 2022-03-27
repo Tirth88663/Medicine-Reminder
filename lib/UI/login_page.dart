@@ -1,5 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:medicine_reminder/UI/home_page.dart';
 import 'package:medicine_reminder/constants.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -27,10 +28,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Image.asset('images/frontpage.jpg'),
               ),
             ),
-            TextField(
+            TextFormField(
                 keyboardType: TextInputType.emailAddress,
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.black),
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return "Please Enter Your Email.";
+                  }
+                  //reg expression for email validation
+                  if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
+                      .hasMatch(value)) {
+                    return ("Please Enter Valid Email");
+                  }
+                  return null;
+                },
                 onChanged: (value) {
                   email = value;
                   //Do something with the user input.
@@ -40,10 +52,21 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(
               height: 8.0,
             ),
-            TextField(
+            TextFormField(
                 obscureText: true,
                 textAlign: TextAlign.center,
+                obscuringCharacter: '•',
                 style: TextStyle(color: Colors.black),
+                validator: (value) {
+                  RegExp regex = RegExp(r'^.{8,}$');
+                  if (value!.isEmpty) {
+                    return ("Password is required for login");
+                  }
+                  if (!regex.hasMatch(value)) {
+                    return ("Please enter valid password(Min. 8 Characters)");
+                  }
+                  return null;
+                },
                 onChanged: (value) {
                   password = value;
                   //Do something with the user input.
@@ -66,7 +89,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       final user = await _auth.signInWithEmailAndPassword(
                           email: email, password: password);
                       if (user != null) {
-                        Navigator.pushNamed(context, '/homepage');
+                        Navigator.pushAndRemoveUntil(
+                            (context),
+                            MaterialPageRoute(builder: (context) => HomePage()),
+                            (route) => false);
                       }
                     } catch (e) {
                       print(e);
