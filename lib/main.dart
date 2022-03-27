@@ -5,8 +5,8 @@ import 'package:medicine_reminder/UI/home_page.dart';
 import 'package:medicine_reminder/config.dart';
 import 'package:medicine_reminder/UI/welcome_page.dart';
 import 'package:firebase_core/firebase_core.dart';
-
-
+import 'UI/login_page.dart';
+import 'UI/registration_page.dart';
 import 'db/dp_helper.dart';
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -56,15 +56,17 @@ class _MedicineReminderState extends State<MedicineReminder> {
         brightness: Brightness.dark,
       ),
       themeMode: currentTheme.currentTheme(),
-      initialRoute: "/homepage",
+      initialRoute: "/welcomeScreen",
       routes: {
         // "/": (context) => GetStarted(),
+        "/welcomeScreen":(context) => WelcomeScreen(),
+        "/loginScreen":(context) =>LoginScreen(),
+        "/registrationScreen":(context)=>RegistrationScreen(),
         "/homepage": (context) => HomePage(),
 
         "/addTaskPage":(context)=>AddTaskPage(),
         "/welcomePage":(context) =>WelcomeScreen(),
-        // "/loginScreen":(context) =>LoginScreen(),
-        // "/registrationScreen":(context)=>RegistrationScreen(),
+
 
       },
     );
