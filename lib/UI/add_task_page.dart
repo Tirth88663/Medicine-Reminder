@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:medicine_reminder/controllers/task_controller.dart';
-import 'package:medicine_reminder/theme.dart';
-import '../models/task.dart';
-import 'package:medicine_reminder/UI/widgets/mybutton.dart';
 import 'package:medicine_reminder/UI/theme.dart';
+import 'package:medicine_reminder/UI/widgets/mybutton.dart';
+import 'package:medicine_reminder/controllers/task_controller.dart';
+
+import '../models/task.dart';
 
 class AddTaskPage extends StatefulWidget {
   const AddTaskPage({Key? key}) : super(key: key);
@@ -20,7 +20,9 @@ class _AddTaskPageState extends State<AddTaskPage> {
   final TextEditingController _noteController = TextEditingController();
 
   DateTime _selectedTime = DateTime.now();
-  String _startTime = DateFormat('hh:mm a').format(DateTime.now().add(Duration(minutes: 1))).toString();
+  String _startTime = DateFormat('hh:mm a')
+      .format(DateTime.now().add(Duration(minutes: 1)))
+      .toString();
   String _endTime = DateFormat('hh:mm a')
       .format((DateTime.now()).add(const Duration(minutes: 15)))
       .toString();
@@ -42,7 +44,7 @@ class _AddTaskPageState extends State<AddTaskPage> {
           child: Column(
             children: [
               Text(
-                'Add Task',
+                'Add Medicine',
                 style: headingStyle,
               ),
               MyInputField(
@@ -120,11 +122,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
                       items: reminderList
                           .map<DropdownMenuItem<String>>(
                               (item) => DropdownMenuItem<String>(
-                              value: item.toString(),
-                              child: Text(
-                                '$item',
-                                style: const TextStyle(color: white),
-                              )))
+                                  value: item.toString(),
+                                  child: Text(
+                                    '$item',
+                                    style: const TextStyle(color: white),
+                                  )))
                           .toList(),
                       onChanged: (String? val) {
                         setState(() {
@@ -159,11 +161,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
                       items: repeatList
                           .map<DropdownMenuItem<String>>(
                               (item) => DropdownMenuItem<String>(
-                              value: item,
-                              child: Text(
-                                item,
-                                style: const TextStyle(color: white),
-                              )))
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(color: white),
+                                  )))
                           .toList(),
                       onChanged: (String? val) {
                         setState(() {
@@ -186,10 +188,10 @@ class _AddTaskPageState extends State<AddTaskPage> {
                 children: [
                   _colorPalette(),
                   MyButton(
-                    label: 'Create Task',
+                    label: 'Create',
                     onTap: () {
                       _validateData();
-
+                      setState(() {});
                     },
                   )
                 ],
@@ -202,26 +204,25 @@ class _AddTaskPageState extends State<AddTaskPage> {
   }
 
   AppBar _appBar() => AppBar(
-    elevation: 0,
-    backgroundColor: context.theme.backgroundColor,
-    leading: IconButton(
-      icon: const Icon(
-        Icons.arrow_back,
-        size: 24,
-        color: primaryClr,
-      ),
-      onPressed: () => Navigator.pop(context),
-    ),
-    actions: const [
-      CircleAvatar(
-        radius: 18,
-        backgroundImage: AssetImage('images/profile.png'),
-      ),
-      SizedBox(
-        width: 20,
-      )
-    ],
-  );
+        elevation: 0,
+        backgroundColor: context.theme.backgroundColor,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back,
+            size: 24,
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
+        actions: const [
+          CircleAvatar(
+            radius: 18,
+            backgroundImage: AssetImage('images/profile.png'),
+          ),
+          SizedBox(
+            width: 20,
+          )
+        ],
+      );
 
   _addTaskToDb() async {
     int value = await _taskController.addTask(
@@ -269,33 +270,33 @@ class _AddTaskPageState extends State<AddTaskPage> {
         ),
         Wrap(
             children: List<Widget>.generate(
-              3,
-                  (index) => GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _selectedColor = index;
-                  });
-                },
-                child: Padding(
-                  padding: const EdgeInsets.only(right: 8.0),
-                  child: CircleAvatar(
-                    child: _selectedColor == index
-                        ? const Icon(
-                      Icons.done,
-                      size: 16,
-                      color: white,
-                    )
-                        : null,
-                    radius: 14,
-                    backgroundColor: index == 0
-                        ? primaryClr
-                        : index == 1
+          3,
+          (index) => GestureDetector(
+            onTap: () {
+              setState(() {
+                _selectedColor = index;
+              });
+            },
+            child: Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: CircleAvatar(
+                child: _selectedColor == index
+                    ? const Icon(
+                        Icons.done,
+                        size: 16,
+                        color: white,
+                      )
+                    : null,
+                radius: 14,
+                backgroundColor: index == 0
+                    ? primaryClr
+                    : index == 1
                         ? pinkClr
                         : orangeClr,
-                  ),
-                ),
               ),
-            ))
+            ),
+          ),
+        ))
       ],
     );
   }
@@ -306,16 +307,17 @@ class _AddTaskPageState extends State<AddTaskPage> {
       initialTime: isStartTime
           ? TimeOfDay.fromDateTime(DateTime.now())
           : TimeOfDay.fromDateTime(
-          DateTime.now().add(const Duration(minutes: 15))),
+              DateTime.now().add(const Duration(minutes: 15))),
     );
     String _formattedTime = _pickedTime!.format(context);
 
-    if (isStartTime)
+    if (isStartTime) {
       setState(() => _startTime = _formattedTime);
-    else if (!isStartTime)
+    } else if (!isStartTime) {
       setState(() => _endTime = _formattedTime);
-    else
-      print('time cancelled or sonething wrong');
+    } else {
+      print('time cancelled or something wrong');
+    }
   }
 
   _getDateFromUser() async {
@@ -327,11 +329,11 @@ class _AddTaskPageState extends State<AddTaskPage> {
     if (_pickedDate != null) {
       setState(() => _selectedTime = _pickedDate);
       print('hhhh $_pickedDate');
-    } else
+    } else {
       print('It\'s null or something error');
+    }
   }
 }
-
 
 class MyInputField extends StatelessWidget {
   final String title;
@@ -341,10 +343,10 @@ class MyInputField extends StatelessWidget {
 
   const MyInputField(
       {Key? key,
-        required this.title,
-        required this.hint,
-        this.textEditingController,
-        this.widget})
+      required this.title,
+      required this.hint,
+      this.textEditingController,
+      this.widget})
       : super(key: key);
 
   @override
@@ -378,7 +380,7 @@ class MyInputField extends StatelessWidget {
                     readOnly: widget == null ? false : true,
                     autofocus: false,
                     cursorColor:
-                    Get.isDarkMode ? Colors.grey[100] : Colors.grey[700],
+                        Get.isDarkMode ? Colors.grey[100] : Colors.grey[700],
                     controller: textEditingController,
                     style: subTitleStyle,
                     decoration: InputDecoration(
@@ -402,8 +404,8 @@ class MyInputField extends StatelessWidget {
                 widget == null
                     ? Container()
                     : Container(
-                  child: widget,
-                ),
+                        child: widget,
+                      ),
               ],
             ),
           ),

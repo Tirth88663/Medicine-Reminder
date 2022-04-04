@@ -1,21 +1,20 @@
-
 import 'dart:isolate';
 
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:date_picker_timeline/date_picker_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_alarm_clock/flutter_alarm_clock.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
-import 'package:medicine_reminder/UI/theme.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:medicine_reminder/UI/theme.dart';
+import 'package:medicine_reminder/UI/widgets/mybutton.dart';
 import 'package:medicine_reminder/components/notification_helper.dart';
 import 'package:medicine_reminder/config.dart';
-import '../models/task.dart';
-import 'package:medicine_reminder/UI/widgets/mybutton.dart';
-import 'package:get/get.dart';
-import 'widgets/task_tile.dart';
 import 'package:medicine_reminder/controllers/task_controller.dart';
 import 'package:medicine_reminder/theme.dart';
+
+import '../models/task.dart';
+import 'widgets/task_tile.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -93,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
                 MyButton(
-                  label: '+ Add Task',
+                  label: '+ Add Medicine',
                   onTap: () async {
                     await Navigator.pushNamed(context, '/addTaskPage');
                     _taskController.getTasks();
@@ -122,11 +121,10 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.grey[600],
                   fontSize: 12,
                   fontWeight: FontWeight.bold),
-              onDateChange: (date){
+              onDateChange: (date) {
                 setState(() {
                   _selectedDate = date;
                 });
-
               },
             ),
           ),
@@ -139,9 +137,10 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-
   _showTasks() {
     // if (_taskController.taskList.isEmpty) {
+    //   return
+    // } else {
     _taskController.getTasks();
 
     return Expanded(
@@ -149,62 +148,43 @@ class _HomePageState extends State<HomePage> {
         return ListView.builder(
             itemCount: _taskController.taskList.length,
             itemBuilder: (_, index) {
-              Task task=_taskController.taskList[index];
+              Task task = _taskController.taskList[index];
 
               print(task.toJson());
               if (task.date == DateFormat.yMd().format(_selectedDate) ||
                   task.repeat == 'Daily' ||
                   task.repeat == 'Weekly' &&
                       _selectedDate
-                          .difference(
-                          DateFormat.yMd().parse(task.date!))
-                          .inDays %
-                          7 ==
+                                  .difference(
+                                      DateFormat.yMd().parse(task.date!))
+                                  .inDays %
+                              7 ==
                           0 ||
                   task.repeat == 'Monthly' &&
                       _selectedDate.day ==
-                          DateFormat.yMd().parse(task.date!).day ) {
-                DateTime date=DateFormat.jm().parse(task.startTime.toString());
-                var myTime=DateFormat("HH:mm").format(date);
+                          DateFormat.yMd().parse(task.date!).day) {
+                DateTime date =
+                    DateFormat.jm().parse(task.startTime.toString());
+                var myTime = DateFormat("HH:mm").format(date);
 
-                dynamic title=task.title;
-                dynamic note=task.note;
-
+                dynamic title = task.title;
+                dynamic note = task.note;
 
                 int hour;
                 int minutes;
                 hour = int.parse(myTime.toString().split(":")[0]);
                 minutes = int.parse(myTime.toString().split(":")[1]);
-                double _doublestartTime =hour.toDouble()+(minutes.toDouble()/60);
+                double _doublestartTime =
+                    hour.toDouble() + (minutes.toDouble() / 60);
                 double _doubleNowTime = DateTime.now().hour.toDouble() +
                     (DateTime.now().minute.toDouble() / 60);
 
-              if (_doublestartTime>_doubleNowTime){
-                FlutterAlarmClock.createAlarm(hour, minutes,title: "$title \n $note");
+                if (_doublestartTime > _doubleNowTime) {
+                  FlutterAlarmClock.createAlarm(hour, minutes,
+                      title: "$title \n $note");
 
-                 // notifyHelper.scheduledNotification(hour, minutes, task);
-              }
-              return AnimationConfiguration.staggeredList(
-                    position: index,
-                    child: SlideAnimation(
-                      child: FadeInAnimation(
-                        child: Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                _showBottomSheet(
-                                    context, task);
-
-                              },
-                              child: TaskTile(task),
-                            )
-                          ],
-                        ),
-                      ),
-                    ));
-              }
-
-              if (task.date==DateFormat.yMd().format(_selectedDate)){
+                  // notifyHelper.scheduledNotification(hour, minutes, task);
+                }
                 return AnimationConfiguration.staggeredList(
                     position: index,
                     child: SlideAnimation(
@@ -213,9 +193,7 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                _showBottomSheet(
-                                    context, task);
-
+                                _showBottomSheet(context, task);
                               },
                               child: TaskTile(task),
                             )
@@ -223,18 +201,39 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                     ));
-              }else{
+              }
+
+              if (task.date == DateFormat.yMd().format(_selectedDate)) {
+                return AnimationConfiguration.staggeredList(
+                    position: index,
+                    child: SlideAnimation(
+                      child: FadeInAnimation(
+                        child: Row(
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                _showBottomSheet(context, task);
+                              },
+                              child: TaskTile(task),
+                            )
+                          ],
+                        ),
+                      ),
+                    ));
+              } else {
                 return Container();
               }
             });
       }),
     );
   }
+
   static void printHello() {
     final DateTime now = DateTime.now();
     final int isolateId = Isolate.current.hashCode;
     print("[$now] Hello, world! isolate=${isolateId} function='$printHello'");
   }
+
   _appBar() {
     return AppBar(
       leading: GestureDetector(
@@ -242,11 +241,13 @@ class _HomePageState extends State<HomePage> {
           currentTheme.switchTheme();
           notifyHelper.displayNotification(
             title: "Theme Changed",
-            body: MyTheme.isDark ? "Activated dark theme " : "Activated light theme",
+            body: MyTheme.isDark
+                ? "Activated dark theme "
+                : "Activated light theme",
           );
         },
         child: Icon(
-            MyTheme.isDark ? Icons.wb_sunny_outlined:Icons.nightlight_round ),
+            MyTheme.isDark ? Icons.wb_sunny_outlined : Icons.nightlight_round),
       ),
       actions: const [
         Padding(
@@ -260,7 +261,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   _showBottomSheet(BuildContext context, Task task) {
-
     showModalBottomSheet(
         context: context,
         builder: (context) => Container(
@@ -287,20 +287,22 @@ class _HomePageState extends State<HomePage> {
                           label: "Task Completed",
                           onTap: () {
                             _taskController.markTaskCompleted(task.id!);
-                            final dynamic first= _taskController.taskList.removeAt(0);
+                            final dynamic first =
+                                _taskController.taskList.removeAt(0);
                             _taskController.taskList.add(first);
                             _taskController.getTasks();
                             Navigator.pop(context);
+                            setState(() {});
                           },
                           clr: primaryClr,
                           context: context,
                         ),
-
                   _bottomSheetButton(
                     label: "Delete Task",
                     onTap: () {
                       _taskController.delete(task);
                       Navigator.pop(context);
+                      setState(() {});
                     },
                     clr: Colors.red[300]!,
                     context: context,
@@ -339,8 +341,13 @@ class _HomePageState extends State<HomePage> {
         height: 55,
         width: MediaQuery.of(context).size.width * 0.9,
         decoration: BoxDecoration(
-          border:
-              Border.all(width: 2, color: isClose == true ? MyTheme.isDark?Colors.grey[600]! :Colors.grey[300]! : clr),
+          border: Border.all(
+              width: 2,
+              color: isClose == true
+                  ? MyTheme.isDark
+                      ? Colors.grey[600]!
+                      : Colors.grey[300]!
+                  : clr),
           borderRadius: BorderRadius.circular(20),
           color: isClose == true ? Colors.transparent : clr,
         ),
